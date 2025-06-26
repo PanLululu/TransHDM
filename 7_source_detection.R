@@ -15,7 +15,7 @@
 #' @param source_data A list of data frames containing source datasets. Each element must have 
 #'   the same structure as \code{target_data}.
 #' @param kfold Integer (default: 5). Number of folds for cross-validation.
-#' @param C0 Numeric (default: 1). Threshold constant for determining transferability. 
+#' @param C0 Numeric (default: 0.2). Threshold constant for determining transferability. 
 #'   Larger values make the criterion more lenient.
 #'
 #' @return A list containing:
@@ -23,7 +23,7 @@
 #'   \item{transfer.source.id: Indices of transferable source datasets}
 #'   \item{source.loss: Mean validation loss for each source dataset}
 #'   \item{target.valid.loss: Mean validation loss using target-only model}
-#'   \item{threshold: Calculated transferability threshold (target.valid.loss + C0*sd)}
+#'   \item{threshold: Calculated transferability threshold }
 #'   \item{loss.cv: Full k-fold cross-validation loss matrix}
 #' }
 #' 
@@ -65,7 +65,7 @@
 #' ))
 # ------------------------------------------------------------------------------
 
-source_detection<-function(target_data,source_data,kfold=5,C0=1){
+source_detection<-function(target_data,source_data,kfold=5,C0=0.2){
   
   target_data_split<-kfold_split(target_data,kfold=kfold)
   M_list<-colnames(target_data)[grepl('M',colnames(target_data))]
@@ -104,10 +104,10 @@ source_detection<-function(target_data,source_data,kfold=5,C0=1){
   
   source.loss <- colMeans(loss.cv)[1:(ncol(loss.cv)-1)]
   target.valid.loss <- colMeans(loss.cv)[ncol(loss.cv)]
-  target.valid.loss.sd <- sd(loss.cv[, ncol(loss.cv)])
+  T_index<-source.loss-target.valid.loss
   
-  threshold <- target.valid.loss + C0*max(target.valid.loss.sd, 0.01)
-  transfer.source.id <- which(source.loss <= threshold)
+  threshold <-C0*max(target.valid.loss, 0.01)
+  transfer.source.id <- which(T_index <= threshold)
   
   obj <- list(transfer.source.id = transfer.source.id, source.loss = source.loss, target.valid.loss = target.valid.loss,
               threshold = threshold,loss.cv=loss.cv)
