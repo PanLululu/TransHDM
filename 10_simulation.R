@@ -72,9 +72,21 @@ for (p_m in c(1000, 2000)) {              # Number of mediators
                                       target_data <- generate_simulationData(n = n, p_x = p_x, p_m = p_m, rho = rho, seed = s)$data
                                       
                                       # Generate s_n source datasets with transferable structure
-                                      source_data <- foreach(k = 1:s_n, .combine = "rbind") %do% {
-                                        generate_simulationData(n = n_s, p_x = p_x, p_m = p_m, rho = rho,
-                                                                source = TRUE, transferable = TRUE, h = 2)$data
+                                      source_data <- lapply(1:3,function(k){
+                                        if(k<=s_n){
+                                          generate_simulationData(n = n_s, p_x = p_x, p_m = p_m, rho = rho,
+                                                                  source = TRUE, transferable = TRUE, h = 2)$data
+                                        }else{
+                                          generate_simulationData(n = n_s, p_x = p_x, p_m = p_m, rho = rho,
+                                                                  source = TRUE, transferable = FALSE, h = 2)$data
+                                        }
+                                      }) 
+                                      
+                                      # detect transferable source
+                                      detect<-source_detection(target_data,source_data,kfold=5)
+                                      
+                                      source_data <- foreach(k=detect$transfer.source.id, .combine = "rbind") %do% {
+                                        source_data[[k]]
                                       }
                                       
                                       # Fit TransHDM model with transfer learning enabled
