@@ -23,6 +23,7 @@
 #'   \item{transfer.source.id: Indices of transferable source datasets}
 #'   \item{source.loss: Mean validation loss for each source dataset}
 #'   \item{target.valid.loss: Mean validation loss using target-only model}
+#'   \item{T_index: Index measuring transferability}
 #'   \item{threshold: Calculated transferability threshold }
 #'   \item{loss.cv: Full k-fold cross-validation loss matrix}
 #' }
@@ -110,7 +111,7 @@ source_detection<-function(target_data,source_data,kfold=5,C0=0.2){
   transfer.source.id <- which(T_index <= threshold)
   
   obj <- list(transfer.source.id = transfer.source.id, source.loss = source.loss, target.valid.loss = target.valid.loss,
-              threshold = threshold,loss.cv=loss.cv)
+              T_index=T_index, threshold = threshold,loss.cv=loss.cv)
   obj
 }
 

@@ -68,9 +68,9 @@ generate_simulationData<-function(n=100,
       set.seed(NULL)
     }else{
       set.seed(123)
-      alpha1<-c(sample(c(rep(0.5,10+2),0,0,rep(0,p_m-14))))
+      alpha1<-c(rep(0.5,8),sample(c(rep(0.5,2),rep(0,p_m-8-2)))) 
       set.seed(123)
-      beta2<-c(sample(c(rep(0.5,10),0,0,rep(0.5,2),rep(0,p_m-14))))
+      beta2<-c(rep(0.5,8),sample(c(rep(0.5,2),rep(0,p_m-8-2)))) 
       set.seed(NULL)
     }
   }
