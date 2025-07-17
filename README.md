@@ -65,10 +65,10 @@ We provide a target dataset (sim_target) and a source dataset (sim_source) that 
 
 sim_target dataset represents the target group with 37 samples and sim_source dataset represents the source group with 1,059 samples. Both datasets includes the following variables:
 
-- **Exposure variable D
-- **Outcome variable Y
-- **Three covariates X1, X2, X3
-- **781 mediator variables M1 to M781
+- Exposure variable D
+- Outcome variable Y
+- Three covariates X1, X2, X3
+- 781 mediator variables M1 to M781
 
 
 
