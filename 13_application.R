@@ -214,7 +214,7 @@ source_detection_result
 black.fit<-TransHDMA(target_data,verbose = T,topN = 60,ncore = 5)
 
 ### TransHDMA
-trans.fit<-TransHDMA(target_data,source_data,transfer=T,verbose = T,topN =150,ncore = 5,db_SIS=T)
+trans.fit<-TransHDMA(target_data,source_data,transfer=T,verbose = T,topN =150,ncore = 5,dblasso_SIS=T)
 
 
 

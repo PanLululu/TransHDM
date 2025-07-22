@@ -80,12 +80,13 @@ TransHDM<-function(
     transfer=FALSE,
     verbose=TRUE,
     ncore=1,
-    topN=NULL
+    topN=NULL,
+    dblasso_SIS=F
 ){
   p_m<-length(grep('M',colnames(target_data)))
  
   ### Step-1 Sure Independent Screening
-  SIS_result<-SIS(target_data,source_data,transfer = transfer,verbose=verbose,ncore=ncore,topN=topN)
+  SIS_result<-SIS(target_data,source_data,transfer = transfer,verbose=verbose,ncore=ncore,topN=topN,dblasso_method=dblasso_SIS)
   target_SIS<-SIS_result$target_SIS
   source_SIS<-SIS_result$source_SIS
   
